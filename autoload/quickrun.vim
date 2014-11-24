@@ -1085,7 +1085,7 @@ function! s:build_config(config)
     \ }
   endif
 
-  let type = {"type": &filetype}
+  let type = {"type": substitute(&filetype, '\v<(\S+)(\.\S+)', '\1', '')}
   for c in [
   \ 'b:quickrun_config',
   \ 'type',
