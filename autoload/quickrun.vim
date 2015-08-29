@@ -215,6 +215,9 @@ let g:quickrun#default_config = {
 \   'command': 'erb',
 \   'exec': '%c %o -T - %s %a',
 \ },
+\ 'fish': {
+\   'command': 'fish',
+\ },
 \ 'fortran': {
 \   'type': 'fortran/gfortran',
 \ },
@@ -465,11 +468,16 @@ let g:quickrun#default_config = {
 \ 'sed': {},
 \ 'sh': {},
 \ 'sql': {
-\   'type': executable('psql') ? 'sql/postgres' : '',
+\   'type': executable('psql') ? 'sql/postgres' :
+\           executable('mysql') ? 'sql/mysql' : '',
 \ },
 \ 'sql/postgres': {
 \   'command': 'psql',
 \   'exec': ['%c %o -f %s'],
+\ },
+\ 'sql/mysql': {
+\   'command': 'mysql',
+\   'exec': ['%c %o < %s'],
 \ },
 \ 'swift': {
 \   'type' : executable('xcrun') ? 'swift/apple' : '',
@@ -482,6 +490,7 @@ let g:quickrun#default_config = {
 \   'command': 'tsc',
 \   'exec': ['%c --target es5 --module commonjs %o %s', 'node %s:r.js'],
 \   'tempfile': '%{tempname()}.ts',
+\   'hook/sweep/files': ['%S:p:r.js'],
 \ },
 \ 'vim': {
 \   'command': ':source',
