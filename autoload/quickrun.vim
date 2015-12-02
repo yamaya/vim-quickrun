@@ -187,8 +187,9 @@ let g:quickrun#default_config = {
 \   'hook/sweep/files': ['%S:p:r'],
 \ },
 \ 'dosbatch': {
-\   'command': '',
-\   'exec': 'call %s %a',
+\   'command': 'cmd',
+\   'exec': '%c /c "call %s %a"',
+\   'hook/output_encode/encoding': 'cp932',
 \   'tempfile': '%{tempname()}.bat',
 \ },
 \ 'dart': {
@@ -354,6 +355,11 @@ let g:quickrun#default_config = {
 \   'command': ':luafile',
 \   'exec': '%C %s',
 \   'runner': 'vimscript',
+\ },
+\ 'lua/redis': {
+\   'command': 'redis-cli',
+\   'exec': '%c --eval %s %a',
+\   'tempfile': '%{tempname()}.lua'
 \ },
 \ 'markdown': {
 \   'type': executable('Markdown.pl') ? 'markdown/Markdown.pl':
