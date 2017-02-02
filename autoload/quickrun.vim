@@ -188,7 +188,7 @@ let g:quickrun#default_config = {
 \ },
 \ 'dosbatch': {
 \   'command': 'cmd',
-\   'exec': '%c /c "call %s %a"',
+\   'exec': '%c /c %s %a',
 \   'hook/output_encode/encoding': 'cp932',
 \   'tempfile': '%{tempname()}.bat',
 \ },
@@ -405,6 +405,13 @@ let g:quickrun#default_config = {
 \ 'perl6': {'hook/eval/template': '{%s}().perl.print'},
 \ 'python': {'hook/eval/template': 'print(%s)'},
 \ 'php': {},
+\ 'pony': {
+\   'command': 'ponyc',
+\   'exec': ['%c -V 0 %o', '%s:p:h/%s:p:h:t %a'],
+\   'tempfile': '%{tempname()}.pony',
+\   'hook/sweep/files': ['%S:p:h/%S:p:h:t'],
+\   'hook/cd/directory': '%S:p:h',
+\ },
 \ 'ps1': {
 \   'exec': '%c %o -File %s %a',
 \   'command': 'powershell.exe',
