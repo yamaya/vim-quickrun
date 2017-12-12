@@ -209,6 +209,12 @@ let g:quickrun#default_config = {
 \   'command': 'erb',
 \   'exec': '%c %o -T - %s %a',
 \ },
+\ 'eta': {
+\   'command': 'eta',
+\   'exec': ['%c %s', 'java -jar %s:h/Run%s:t:r.jar'],
+\   'tempfile': '%{tempname()}.hs',
+\   'hook/sweep/files': ['%S:p:h/Run%S:t:r.jar', '%S:p:r.jar', '%S:p:r.hi'],
+\ },
 \ 'fish': {
 \   'command': 'fish',
 \ },
@@ -443,11 +449,13 @@ let g:quickrun#default_config = {
 \   'command': 'rustc',
 \   'exec': ['%c %o %s -o %s:p:r', '%s:p:r %a'],
 \   'tempfile': '%{tempname()}.rs',
+\   'hook/shebang/enable': 0,
 \   'hook/sweep/files': '%S:p:r',
 \ },
 \ 'rust/cargo': {
 \   'command': 'cargo',
 \   'exec': '%c run %o',
+\   'hook/shebang/enable': 0,
 \ },
 \ 'scala': {
 \   'exec': ['scalac %o -d %s:p:h %s', '%c -cp %s:p:h %s:t:r %a'],
