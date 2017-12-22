@@ -6,7 +6,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let s:V = vital#of('quickrun').load(
+let s:V = vital#quickrun#new().load(
 \   'Data.List',
 \   'System.File',
 \   'System.Filepath',
@@ -435,14 +435,14 @@ let g:quickrun#default_config = {
 \   'command': 'irb',
 \   'cmdopt': '--simple-prompt',
 \   'runner': 'concurrent_process',
-\   'runner/concurrent_process/load': "load %s",
+\   'runner/concurrent_process/load': 'load %s',
 \   'runner/concurrent_process/prompt': '>> ',
 \ },
 \ 'ruby/pry': {
 \   'command': 'pry',
 \   'cmdopt': '--no-color --simple-prompt',
 \   'runner': 'concurrent_process',
-\   'runner/concurrent_process/load': "load %s",
+\   'runner/concurrent_process/load': 'load %s',
 \   'runner/concurrent_process/prompt': '>> ',
 \ },
 \ 'rust': {
@@ -521,7 +521,7 @@ let g:quickrun#default_config = {
 \ 'vim': {
 \   'command': ':source',
 \   'exec': '%C %s',
-\   'hook/eval/template': "echo %s",
+\   'hook/eval/template': 'echo %s',
 \   'runner': 'vimscript',
 \ },
 \ 'wsh': {
@@ -944,7 +944,7 @@ function! quickrun#complete(lead, cmd, pos) abort
         let list = map(filter(quickrun#module#get(opt),
         \                     'v:val.available()'), 'v:val.name')
       endif
-      return filter(list, 'v:val =~# "^".a:lead')
+      return filter(list, 'v:val =~# "^" . a:lead')
     endif
 
   elseif head =~# '^-'
