@@ -275,6 +275,12 @@ let g:quickrun#default_config = {
 \   'tempfile': '%{tempname()}.hs',
 \   'hook/sweep/files': ['%S:p:r', '%S:p:r.o', '%S:p:r.hi'],
 \ },
+\ 'idris': {
+\   'command': 'idris',
+\   'exec': ['%c %o %s --output %s:p:r', '%s:p:r %a'],
+\   'tempfile': '%{tempname()}.idr',
+\   'hook/sweep/files': ['%S:p:r', '%S:p:r.ibc'],
+\ },
 \ 'io': {},
 \ 'java': {
 \   'exec': ['javac %o -d %s:p:h %s', '%c -cp %s:p:h %s:t:r %a'],
@@ -370,7 +376,8 @@ let g:quickrun#default_config = {
 \           executable('bluecloth') ? 'markdown/bluecloth':
 \           executable('redcarpet') ? 'markdown/redcarpet':
 \           executable('pandoc') ? 'markdown/pandoc':
-\           executable('markdown_py') ? 'markdown/markdown_py': '',
+\           executable('markdown_py') ? 'markdown/markdown_py':
+\           executable('markdown') ? 'markdown/discount': '',
 \ },
 \ 'markdown/Markdown.pl': {
 \   'command': 'Markdown.pl',
@@ -391,6 +398,9 @@ let g:quickrun#default_config = {
 \ },
 \ 'markdown/markdown_py': {
 \   'command': 'markdown_py',
+\ },
+\ 'markdown/discount': {
+\   'command': 'markdown',
 \ },
 \ 'nim': {
 \   'cmdopt': 'compile --run --verbosity:0',
@@ -513,6 +523,15 @@ let g:quickrun#default_config = {
 \   'exec': ['%c source-file %s:p'],
 \ },
 \ 'typescript': {
+\   'type': executable('ts-node') ? 'typescript/ts-node' :
+\           executable('tsc') ? 'typescript/tsc' : '',
+\ },
+\ 'typescript/ts-node': {
+\   'command': 'ts-node',
+\   'cmdopt': '--compilerOptions ''{"target": "es2015"}''',
+\   'exec': '%c %o %s',
+\ },
+\ 'typescript/tsc': {
 \   'command': 'tsc',
 \   'exec': ['%c --target es5 --module commonjs %o %s', 'node %s:r.js'],
 \   'tempfile': '%{tempname()}.ts',
@@ -577,12 +596,13 @@ function! s:Session.normalize(config) abort
 
       let body = s:V.Process.iconv(body, &encoding, &fileencoding)
 
+      if !&l:binary &&
+      \  (!exists('&fixendofline') || &l:fixendofline || &l:endofline)
+        let body .= "\n"
+      endif
       if &l:fileformat ==# 'mac'
         let body = substitute(body, "\n", "\r", 'g')
       elseif &l:fileformat ==# 'dos'
-        if !&l:binary
-          let body .= "\n"
-        endif
         let body = substitute(body, "\n", "\r\n", 'g')
       endif
 
