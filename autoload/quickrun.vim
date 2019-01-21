@@ -326,6 +326,9 @@ let g:quickrun#default_config = {
 \   'hook/eval/template':
 \     'class _Main { static function main(args : string[]) :void { %s }}',
 \ },
+\ 'julia': {
+\   'command': 'julia',
+\ },
 \ 'kotlin': {
 \    'command': 'java',
 \    'exec': ['kotlinc %o %s -include-runtime -d %s:p:r.jar', '%c -jar %s:p:r.jar'],
@@ -472,7 +475,7 @@ let g:quickrun#default_config = {
 \ 'rust': {
 \   'command': 'rustc',
 \   'exec': ['%c %o %s -o %s:p:r', '%s:p:r %a'],
-\   'tempfile': '%{tempname()}.rs',
+\   'tempfile': '%{fnamemodify(tempname(), ":r")}.rs',
 \   'hook/shebang/enable': 0,
 \   'hook/sweep/files': '%S:p:r',
 \ },
