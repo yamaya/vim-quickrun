@@ -1,5 +1,5 @@
 " Run commands quickly.
-" Version: 0.7.0
+" Version: 0.8.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: zlib License
 
@@ -449,6 +449,14 @@ let g:quickrun#default_config = {
 \   'tempfile': '%{tempname()}.ps1',
 \   'hook/output_encode/encoding': '&termencoding',
 \ },
+\ 'purescript': {
+\   'type': executable('pulp') ? 'purescript/pulp' : '',
+\ },
+\ 'purescript/pulp': {
+\   'command': 'pulp',
+\   'cmdopt': '--monochrome',
+\   'exec': '%c %o run',
+\ },
 \ 'xquery': {
 \   'command': 'zorba',
 \   'exec': '%c %o %s %a',
@@ -514,7 +522,9 @@ let g:quickrun#default_config = {
 \ 'sql': {
 \   'type': executable('psql') ? 'sql/postgres' :
 \           executable('mysql') ? 'sql/mysql' :
-\           executable('sqlite3') ? 'sql/sqlite3' : '',
+\           executable('sqlite3') ? 'sql/sqlite3' :
+\           executable('sqlplus') ? 'sql/oracle' :
+\           executable('sqlcmd') ? 'sql/mssql' : '',
 \ },
 \ 'sql/postgres': {
 \   'command': 'psql',
@@ -527,6 +537,18 @@ let g:quickrun#default_config = {
 \ 'sql/sqlite3': {
 \   'command': 'sqlite3',
 \   'exec': ['%c %o < %s'],
+\ },
+\ 'sql/oracle': { 
+\   'command': 'sqlplus',
+\   'exec': ['%c %o \@%s'],
+\   'hook/output_encode/enable' : 1,
+\   'hook/output_encode/encoding' : '&termencoding',
+\ },
+\ 'sql/mssql': { 
+\   'command': 'sqlcmd',
+\   'exec': ['%c %o -i %s'],
+\   'hook/output_encode/enable' : 1,
+\   'hook/output_encode/encoding' : '&termencoding',
 \ },
 \ 'swift': {
 \   'type' : executable('xcrun') ? 'swift/apple' : '',
